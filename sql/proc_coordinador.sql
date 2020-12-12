@@ -1,4 +1,4 @@
-###FUNCION modificar notas coordinador
+-- FUNCION modificar notas coordinador
 create or replace function actualizar_notas_estudiante(id_e_n int, cod_a_n int, n1_n real, n2_n real, n3_n real)
 returns void as $actualizar_notas_estudiante$
 declare
@@ -37,4 +37,3 @@ CREATE TRIGGER grabar_operaciones AFTER INSERT OR UPDATE OR
 DELETE
 ON universidad.inscribe FOR EACH STATEMENT
 EXECUTE PROCEDURE grabar_operaciones();
- 
