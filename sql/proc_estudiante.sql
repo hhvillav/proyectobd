@@ -71,6 +71,12 @@ language 'plpgsql';
 
 CREATE OR REPLACE VIEW consulta_remota_libros AS
 SELECT *
-FROM dblink('dbname=biblioteca port=5432 user=',current_user,' password=', current_user),
+FROM dblink('dbname=biblioteca port=5432 user=postgres password=postgres'),
 'select isbn, titulo, nom_autor, edicion from consulta_libros')
 AS t1 (isbn int, titulo varchar, nom_autor varchar, edicion int )
+
+CREATE OR REPLACE VIEW consulta_remota_prestamos AS
+SELECT *
+FROM dblink('dbname=biblioteca port=5432 user=postgres password=postgres',
+'select cod_e,isbn, titulo, nom_autor, edicion,fech_p, fech_d from consulta_prestamos')
+AS t1 (cod_e int, isbn int, titulo varchar, nom_autor varchar, edicion int ,fech_p date, fech_d date)
