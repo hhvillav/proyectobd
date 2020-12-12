@@ -42,7 +42,7 @@ begin
     -- Hay que repetir este if por cada facultad
 	for reg_fac in select	* from	lista_bd_facultades loop
 	-- consulta por cada facultad
-	select * from dblink(concat('dbname=', reg_fac.nombre, ' host=', reg_fac.servidor_bd, ' user=postgres password=sa'), consulta)
+	select * from dblink(concat('dbname=', reg_fac.nombre, ' host=', reg_fac.servidor_bd, ' user=bibliotecario password=bibliotecario'), consulta)
 	as (carr int)into c;
        RETURN c;
 	-- fin consulta por cada facultad
