@@ -104,7 +104,7 @@ create or replace function insertar_ejemplar(isbn_n numeric, num_ej_n int )
 returns void as $insertar_ejemplar$
 declare
 begin
-	insert into ejemplar (isbn,num_ej) values (isbn_p_n, num_ej_p_n);
+	insert into ejemplares (isbn,num_ej) values (isbn_n, num_ej_n);
 end
 $insertar_ejemplar$ language plpgsql;
 
@@ -114,7 +114,7 @@ create or replace function eliminar_ejemplar(isbn_e numeric, num_ej_e int )
 returns void as $eliminar_ejemplar$
 declare
 begin
-	delete from ejemplar where isbn = isbn_e and num_ej = num_ej_e;
+	delete from ejemplares where isbn = isbn_e and num_ej = num_ej_e;
 end
 $eliminar_ejemplar$ language plpgsql;
 
@@ -170,7 +170,7 @@ returns void as $actualizar_autor$
 declare
 begin
 	update  autores set
-		nom_autor_n = nom_autor_n,
+		nom_autor = nom_autor_n,
 		nacionalidad = nacionalidad_n
 	 where
 		id_a = id_a_n;
@@ -190,6 +190,10 @@ $eliminar_autor$ language plpgsql;
 -- Accesos
 -- ------------------------------------------------------------------------------
 create role	bibliotecario;
+GRANT ALL PRIVILEGES ON DATABASE biblioteca TO bibliotecario;
+-- usuario de prueba
+-- create user bib1  with password 'bib1' in role bibliotecario
+
 
 -- Añade un bbibliotecario
 create or replace function agregar_bibliotecario(nombre_usuario char(20))
@@ -224,3 +228,5 @@ begin
 	end loop;
 end
 $retirar_bibliotecario$ language plpgsql;
+
+--

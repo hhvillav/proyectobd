@@ -11,6 +11,7 @@ CREATE TABLE public.carreras (
 	nom_carr varchar(50) NULL,
 	reg_calif varchar(50) NULL,
 	creditos int4 NULL,
+	id_p int4 NULL,
 	CONSTRAINT carreras_pk PRIMARY KEY (id_carr)
 );
 
@@ -67,26 +68,12 @@ CREATE TABLE public.profesores (
 	CONSTRAINT profesores_pk PRIMARY KEY (id_p)
 );
 
-
-
----------------------------------------------------
-
-/*
--- Para generar estas tablas debe realizarse una relación con el esquema de la biblioteca
-CREATE TABLE public.presta (
-	cod_e numeric NOT NULL,
-	isbn numeric(14) NOT NULL,
-	num_ej int4 NOT NULL,
-	fech_p date NOT NULL,
-	fech_d date NULL,
-	CONSTRAINT presta_pk PRIMARY KEY (cod_e, isbn, num_ej, fech_p)
-);
-
-
-CREATE TABLE public.referencia (
+-- isbn se
+CREATE TABLE referencia (
 	cod_a int4 NOT NULL,
 	isbn numeric(14) NOT NULL,
 	CONSTRAINT referencia_pk PRIMARY KEY (cod_a, isbn)
 );
 
-*/
+
+---------------------------------------------------

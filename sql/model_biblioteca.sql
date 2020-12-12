@@ -30,11 +30,6 @@ CREATE TABLE presta (
 	fech_d timestamp NULL,
 	CONSTRAINT presta_pk PRIMARY KEY (cod_e, isbn, num_ej, fech_p)
 );
-CREATE TABLE referencia (
-	cod_a int4 NOT NULL,
-	isbn numeric(14) NOT NULL,
-	CONSTRAINT referencia_pk PRIMARY KEY (cod_a, isbn)
-);
 
 CREATE TABLE public.libros (
 	isbn numeric NOT NULL,
@@ -43,3 +38,18 @@ CREATE TABLE public.libros (
 	editorial varchar NOT NULL,
 	CONSTRAINT libros_pk PRIMARY KEY (isbn)
 );
+
+
+-- ----------------------------------------------------------------------------
+-- Vistas para consulta de libros
+-- ----------------------------------------------------------------------------
+CREATE VIEW consulta_libros AS
+(
+	select isbn, titulo, nom_autor, edicion from libros natural join escribe natural join autores
+)
+
+
+CREATE VIEW consulta_prestamos AS
+(
+	select cod_e,isbn, titulo, nom_autor, edicion,fech_p, fech_d from libros natural join escribe natural join autores natural join presta
+)
