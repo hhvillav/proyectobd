@@ -2,7 +2,7 @@
 -- Administración de conexiones
 -- ------------------------------------------------------------------------------
 -- Mantiene las conexiones en una vista para facilitar su matenimiento
-CREATE OR REPLACE VIEW public.lista_bd_facultades
+CREATE OR REPLACE VIEW lista_bd_facultades
 AS SELECT 'facultad_artes'AS nombre,
     'localhost' AS servidor,
     '5432' AS puerto
@@ -42,7 +42,7 @@ begin
     -- Hay que repetir este if por cada facultad
 	for reg_fac in select	* from	lista_bd_facultades loop
 	-- consulta por cada facultad
-	select * from dblink(concat('dbname=', reg_fac.nombre, ' host=', reg_fac.servidor_bd, ' user=bibliotecario password=bibliotecario'), consulta)
+	select * from dblink(concat('dbname=', reg_fac.nombre, ' host=', reg_fac.servidor_bd, ' user=',current_user,' password=', current_user), consulta)
 	as (carr int)into c;
        RETURN c;
 	-- fin consulta por cada facultad
@@ -185,3 +185,42 @@ begin
 	delete from autores where id_a = id_a_n;
 end
 $eliminar_autor$ language plpgsql;
+
+-- ------------------------------------------------------------------------------
+-- Accesos
+-- ------------------------------------------------------------------------------
+create role	bibliotecario;
+
+-- Añade un bbibliotecario
+create or replace function agregar_bibliotecario(nombre_usuario char(20))
+returns void as $agregar_bibliotecario$
+declare
+consulta char(255);
+reg_fac record;
+begin
+	consulta := concat('create user ',nombre_usuario,' with password ',nombre_usuario' in role bibliotecario');
+  execute consulta;
+	for reg_fac in select	* from	lista_bd_facultades loop
+		-- consulta por cada facultad
+		select dblink_exec(concat('dbname=', reg_fac.nombre, ' host=', reg_fac.servidor_bd, ' user=postgres password=postgres'), consulta);
+
+		-- fin consulta por cada facultad
+	end loop;
+end
+$agregar_bibliotecario$ language plpgsql;
+
+
+-- retirar un bibliotecario
+create or replace function retirar_bibliotecario(nombre_usuario char(20))
+returns void as $retirar_bibliotecario$
+declare
+consulta char(255);
+reg_fac record;
+begin
+	consulta := concat('drop user ',nombre_usuario);
+  execute consulta;
+	for reg_fac in select	* from	lista_bd_facultades loop
+		select dblink_exec(concat('dbname=', reg_fac.nombre, ' host=', reg_fac.servidor_bd, ' user=postgres password=postgres'), consulta);
+	end loop;
+end
+$retirar_bibliotecario$ language plpgsql;
