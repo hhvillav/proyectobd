@@ -4,9 +4,9 @@ CREATE ROLE "Coordinador"
 CREATE ROLE "Bibliotecario";
 
 
-GRANT USAGE ON SCHEMA "universidad" TO "coordinador";
-grant USAGE ON VIEW "consultas_notas" TO "coordinador"
-GRANT SELECT, UPDATE, DELETE ON universidad.inscribe TO "Coordinador";
+-- GRANT USAGE ON SCHEMA "universidad" TO "coordinador";
+--grant USAGE ON VIEW "consultas_notas" TO "coordinador"
+GRANT SELECT, UPDATE, DELETE ON inscribe TO "Coordinador";
 
 
 

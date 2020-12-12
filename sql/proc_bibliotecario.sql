@@ -189,8 +189,8 @@ $eliminar_autor$ language plpgsql;
 -- ------------------------------------------------------------------------------
 -- Accesos
 -- ------------------------------------------------------------------------------
-create role	bibliotecario;
-GRANT ALL PRIVILEGES ON DATABASE biblioteca TO bibliotecario;
+create role	Bibliotecario;
+GRANT ALL PRIVILEGES ON DATABASE biblioteca TO Bibliotecario;
 -- usuario de prueba
 -- create user bib1  with password 'bib1' in role bibliotecario
 
@@ -202,7 +202,7 @@ declare
 consulta char(255);
 reg_fac record;
 begin
-	consulta := concat('create user ',nombre_usuario,' with password ',nombre_usuario' in role bibliotecario');
+	consulta := concat('create user ',nombre_usuario,' with password ',nombre_usuario' in role Bibliotecario');
   execute consulta;
 	for reg_fac in select	* from	lista_bd_facultades loop
 		-- consulta por cada facultad
